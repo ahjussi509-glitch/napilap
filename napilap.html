@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NAPILAP — Előnézet</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IM+Fell+English:ital@0;1&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#1a1208;--paper:#f5f0e8;--paper-dark:#ece6d4;--accent:#8b1a1a;--rule:#2a1f0e;--mid:#5a4a32;--light-rule:#c8b89a;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;min-height:100vh;}
+
+  .masthead{border-bottom:3px double var(--rule);padding:0 1.5rem;text-align:center;}
+  .top-bar{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--light-rule);padding:6px 0;font-size:0.68rem;letter-spacing:0.08em;color:var(--mid);}
+  .paper-name{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,8vw,5rem);font-weight:900;line-height:1;padding:0.3em 0 0.15em;}
+  .paper-name span{color:var(--accent);}
+  .tagline{font-family:'IM Fell English',serif;font-style:italic;font-size:0.88rem;color:var(--mid);border-top:1px solid var(--light-rule);border-bottom:1px solid var(--light-rule);padding:5px 0;margin-bottom:6px;}
+
+  .section-nav{border-bottom:3px double var(--rule);overflow-x:auto;scrollbar-width:none;}
+  .section-nav::-webkit-scrollbar{display:none;}
+  .nav-inner{display:flex;max-width:1100px;margin:0 auto;}
+  .nav-btn{flex:0 0 auto;padding:9px 16px;font-family:'Source Serif 4',serif;font-size:0.7rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;border:none;background:none;cursor:pointer;color:var(--mid);border-right:1px solid var(--light-rule);}
+  .nav-btn.active{background:var(--ink);color:var(--paper);}
+
+  .container{max-width:1100px;margin:0 auto;padding:0 1rem;}
+  .toolbar{display:flex;gap:8px;padding:0.8rem 0;border-bottom:1px solid var(--light-rule);align-items:center;}
+  .toolbar-btn{background:var(--ink);color:var(--paper);border:none;font-family:'Source Serif 4',serif;font-weight:600;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;cursor:pointer;}
+  .toolbar-btn.ghost{background:none;color:var(--mid);border:1px solid var(--light-rule);}
+
+  .date-rule{display:flex;align-items:center;gap:12px;padding:8px 0;font-family:'IM Fell English',serif;font-style:italic;font-size:0.8rem;color:var(--mid);}
+  .date-rule::before,.date-rule::after{content:'';flex:1;height:1px;background:var(--light-rule);}
+
+  .news-grid{display:grid;grid-template-columns:repeat(12,1fr);border-top:2px solid var(--rule);}
+
+  .story-lead{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--rule);}
+  .story-lead .story-text{padding:1.2rem 1.5rem;border-right:1px solid var(--rule);}
+  .story-lead .story-img{overflow:hidden;min-height:220px;background:var(--paper-dark);display:flex;align-items:center;justify-content:center;font-size:6rem;opacity:0.18;}
+
+  .story-col{grid-column:span 4;padding:1rem 1.2rem;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);}
+  .story-wide{grid-column:span 8;padding:1rem 1.2rem;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);}
+  .story-sidebar{grid-column:span 4;padding:1rem 1.2rem;background:var(--paper-dark);border-bottom:1px solid var(--rule);}
+
+  .section-tag{font-family:'Source Serif 4',serif;font-weight:600;font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);border-bottom:1px solid var(--accent);display:inline-block;padding-bottom:2px;margin-bottom:8px;}
+  .story-headline{font-family:'Playfair Display',serif;font-weight:700;line-height:1.15;margin-bottom:8px;}
+  .story-lead .story-headline{font-size:clamp(1.5rem,3vw,2.2rem);}
+  .story-col .story-headline{font-size:1.1rem;}
+  .story-wide .story-headline{font-size:1.35rem;}
+  .story-sidebar .story-headline{font-size:1rem;font-style:italic;}
+  .story-deck{font-family:'IM Fell English',serif;font-style:italic;font-size:0.92rem;color:var(--mid);line-height:1.45;margin-bottom:10px;}
+  .story-lead .story-deck{font-size:1.05rem;}
+  .story-body{font-size:0.82rem;line-height:1.7;color:#2d2010;}
+  .story-lead .story-body{columns:2;column-gap:1.2rem;}
+  .byline{font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--mid);margin-top:10px;font-weight:600;}
+  .source-link{color:var(--accent);text-decoration:none;margin-left:6px;font-weight:400;text-transform:none;letter-spacing:0;}
+
+  .demo-bar{background:var(--accent);color:var(--paper);text-align:center;padding:6px;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;font-family:'Source Serif 4',serif;font-weight:600;}
+
+  .paper-footer{border-top:3px double var(--rule);text-align:center;padding:1rem;font-family:'IM Fell English',serif;font-style:italic;font-size:0.78rem;color:var(--mid);margin-top:2rem;}
+
+  @media(max-width:680px){
+    .story-lead{grid-template-columns:1fr;}
+    .story-lead .story-img{display:none;}
+    .story-col,.story-wide,.story-sidebar{grid-column:1/-1;border-right:none;}
+    .story-lead .story-body{columns:1;}
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-bar">★ Előnézet — Demo adatokkal · Az élő verzióban valós RSS hírek jelennek meg ★</div>
+
+<header class="masthead">
+  <div class="container">
+    <div class="top-bar">
+      <span>2026. május 1., csütörtök</span>
+      <span>★ Valós RSS hírek · Claude AI fordítás ★</span>
+      <span>✓ Claude kapcsolódva</span>
+    </div>
+    <div class="paper-name">NAPI<span>LAP</span></div>
+    <div class="tagline">A világ hírei magyarul — RSS forrásokból, AI összefoglalással</div>
+  </div>
+</header>
+
+<nav class="section-nav">
+  <div class="nav-inner">
+    <button class="nav-btn active">Magyarország</button>
+    <button class="nav-btn">Világ</button>
+    <button class="nav-btn">Gazdaság</button>
+    <button class="nav-btn">Sport</button>
+    <button class="nav-btn">Technológia</button>
+    <button class="nav-btn">Tudomány</button>
+    <button class="nav-btn">Kultúra</button>
+  </div>
+</nav>
+
+<main class="container">
+  <div class="toolbar">
+    <button class="toolbar-btn">↻ Frissítés</button>
+    <button class="toolbar-btn ghost">⚙ API kulcs</button>
+  </div>
+  <div class="date-rule">Magyarország — május 1.</div>
+  <div class="news-grid">
+
+    <!-- LEAD -->
+    <article class="story-lead">
+      <div class="story-text">
+        <span class="section-tag">Belpolitika</span>
+        <h2 class="story-headline">Budapest forgalma rekordot döntött az ünnep előestéjén</h2>
+        <p class="story-deck">A főváros közlekedési adatai szerint soha nem volt ekkora torlódás munkaszüneti nap előtt a belső körúton.</p>
+        <div class="story-body"><p>A BKK mérései alapján csütörtökön délután öt és hét óra között közel 180 ezer jármű haladt át a belső körúton, ami 23 százalékkal haladja meg a tavalyi május elsejét megelőző nap forgalmát. A tömegközlekedés kapacitását ezért rendkívüli járatokkal bővítették. Az ünnepnapra a meteorológusok napsütéses, meleg időt ígérnek, ezért a Balaton felé vezető utak is zsúfoltak lehetnek reggeltől.</p></div>
+        <p class="byline">— Kovács Béla · <a class="source-link" href="#">telex.hu ↗</a></p>
+      </div>
+      <div class="story-img">🇭🇺</div>
+    </article>
+
+    <!-- 3 COL -->
+    <article class="story-col">
+      <span class="section-tag">Gazdaság</span>
+      <h2 class="story-headline">Forint erősödik az euróval szemben</h2>
+      <p class="story-deck">A hazai deviza hónapok óta nem látott szintre javult a kedvező inflációs adatok után.</p>
+      <div class="story-body">Az MNB adatai szerint az euró árfolyama 388 forint közelébe süllyedt, ami négy hónapos mélypontot jelent. Az elemzők a csökkenő inflációt és a stabil folyó fizetési mérleget jelölik meg fő okként.</div>
+      <p class="byline">— Fekete Zsuzsanna · <a class="source-link" href="#">portfolio.hu ↗</a></p>
+    </article>
+
+    <article class="story-col">
+      <span class="section-tag">Külföld</span>
+      <h2 class="story-headline">EU csúcstalálkozón döntöttek a védelmi kiadásokról</h2>
+      <p class="story-deck">A tagállamok megállapodtak a GDP-arányos hozzájárulások emeléséről Brüsszelben.</p>
+      <div class="story-body">Az Európai Tanács rendkívüli ülésén a 27 tagállam jóváhagyta, hogy 2027-re a védelmi kiadások elérik a GDP 2,5 százalékát. Magyarország már most teljesíti ezt a célszámot.</div>
+      <p class="byline">— Németh Ágnes · <a class="source-link" href="#">bbc.com ↗</a></p>
+    </article>
+
+    <article class="story-col">
+      <span class="section-tag">Sport</span>
+      <h2 class="story-headline">Hosszú Katinka bejelentette visszatérését</h2>
+      <p class="story-deck">A háromszoros olimpiai bajnok úszónő meglepetésszerűen visszatér a versenyúszáshoz.</p>
+      <div class="story-body">Hosszú Katinka közösségi oldalán jelentette be, hogy a 2028-as Los Angeles-i olimpia miatt úgy döntött, folytatja pályafutását. Edzője megerősítette, hogy a felkészülés már elkezdődött.</div>
+      <p class="byline">— Tóth Márton · <a class="source-link" href="#">index.hu ↗</a></p>
+    </article>
+
+    <!-- WIDE + SIDEBAR -->
+    <article class="story-wide">
+      <span class="section-tag">Technológia</span>
+      <h2 class="story-headline">Magyar AI startup 20 millió eurós befektetést kapott</h2>
+      <p class="story-deck">A budapesti mesterségesintelligencia-cég európai terjeszkedésre készül a friss tőkével.</p>
+      <div class="story-body">Egy hazai AI-vállalat jelentős külföldi befektetői kört zárt le. A társaság a következő két évben hat új európai piacra lép be, és 200 új munkahelyet teremt Magyarországon. A befektetők között német és brit kockázati tőkealapok szerepelnek, ami jelzi a közép-európai tech-szektor növekvő vonzerejét.</div>
+      <p class="byline">— Varga István · <a class="source-link" href="#">theverge.com ↗</a></p>
+    </article>
+
+    <article class="story-sidebar">
+      <span class="section-tag">Szerkesztőség</span>
+      <h2 class="story-headline">Más rovatok is várnak…</h2>
+      <p class="story-deck">Kattints a felső navigációra további témakörökért.</p>
+      <p class="byline" style="margin-top:1rem;">Források: Telex · Index · BBC · Reuters · Portfolio</p>
+    </article>
+
+  </div>
+</main>
+
+<footer class="paper-footer">
+  <div class="container">
+    NAPILAP © 2026 — Hírek: Telex · Index · BBC · Reuters · Claude AI fordítás
+  </div>
+</footer>
+
+</body>
+</html>
